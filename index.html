@@ -3,309 +3,158 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jogo da Reciclagem Brasileira</title>
+    <title>Meio Ambiente</title>
+    <link rel="icon" href="img/logo.png">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
     <style>
-        body {
-            font-family: 'Arial', sans-serif;
-            background: url('https://img.freepik.com/fotos-premium/cena-de-fundo-com-muitas-arvores-no-vector-de-ilustracao-do-parque_943963-669.jpg') no-repeat center center fixed;
-            background-size: cover;
+        :root {
+            --primary: #2E8B57;
+            --secondary: #3CB371;
+            --accent: #FFD700;
+            --dark: #1A3A27;
+            --light: #F5F5F5;
+        }
+        
+        * {
             margin: 0;
-            padding: 20px;
-            text-align: center;
+            padding: 0;
+            box-sizing: border-box;
         }
         
-        h1 {
-            color: #2E8B57;
-            text-shadow: 1px 1px 3px rgba(0,0,0,0.2);
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--light);
+            color: #333;
+            line-height: 1.6;
         }
         
-        #game-area {
-            width: 900px;
-            height: 500px;
-            margin: 20px auto;
-            position: relative;
-            background-color: rgba(255, 255, 255, 0.8);
-            border-radius: 15px;
-            box-shadow: 0 0 20px rgba(0, 100, 0, 0.3);
-            overflow: hidden;
-        }
-        
-        .lixeira {
-            width: 120px;
-            height: 150px;
-            position: absolute;
-            bottom: 20px;
-            cursor: pointer;
-            transition: transform 0.2s;
-            border-radius: 0 0 10px 10px;
-        }
-        
-        .lixeira:hover {
-            transform: scale(1.05);
-        }
-        
-        #papel {
-            left: 50px;
-            background-color: #1E90FF; /* Azul */
-        }
-        
-        #plastico {
-            left: 230px;
-            background-color: #FF4500; /* Vermelho */
-        }
-        
-        #vidro {
-            left: 410px;
-            background-color: #32CD32; /* Verde */
-        }
-        
-        #metal {
-            left: 590px;
-            background-color: #FFD700; /* Amarelo */
-        }
-        
-        #eletronico {
-            left: 770px;
-            background-color: #A9A9A9; /* Cinza (para lixo eletrônico) */
-        }
-        
-        .lixo {
-            width: 60px;
-            height: 60px;
-            position: absolute;
-            cursor: grab;
-            user-select: none;
-            transition: transform 0.1s;
-        }
-        
-        .lixo:hover {
-            transform: scale(1.1);
-        }
-        
-        #score {
-            font-size: 24px;
-            color: #006400;
-            margin: 10px;
-            font-weight: bold;
-        }
-        
-        .lixeira-icon {
-            font-weight: bold;
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
             color: white;
-            text-shadow: 1px 1px 2px black;
-            width: 60px;
-            height: 60px;
-            margin: 15px auto 0;
-            background-color: rgba(255,255,255,0.3);
-            border-radius: 40%;
+            padding: 2rem 0;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        
+        .logo {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
             display: flex;
             align-items: center;
             justify-content: center;
         }
         
-        #message {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background-color: rgba(0, 100, 0, 0.9);
-            color: white;
-            padding: 20px;
-            border-radius: 10px;
-            display: none;
-            z-index: 100;
-            font-size: 18px;
+        .logo span {
+            margin: 0 10px;
         }
         
+        .container {
+            max-width: 1200px;
+            margin: 3rem auto;
+            padding: 0 2rem;
+        }
+        .games-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+        
+        .game-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .game-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 12px 25px rgba(0,0,0,0.15);
+        }
+        
+        .game-image {
+            height: 200px;
+            background-size: cover;
+            background-position: center;
+        }
+        
+        .game-content {
+            padding: 1.5rem;
+        }
+        
+        .game-content h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--primary);
+        }
+        
+        .game-content p {
+            margin-bottom: 1.5rem;
+        }
+        
+        .btn {
+            display: inline-block;
+            background-color: var(--primary);
+            color: white;
+            padding: 0.8rem 1.8rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        
+        .btn:hover {
+            background-color: var(--secondary);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(46, 139, 87, 0.4);
+        }
+        
+        
+        @media (max-width: 768px) {
+            .games-grid {
+                grid-template-columns: 1fr;
+            }
+        }
     </style>
 </head>
 <body>
-    <h1>Jogo da Reciclagem ♻️</h1>
-    <p>Arraste cada lixo para a lixeira correta de acordo com as cores oficiais!</p>
-    <div id="score">Pontos: 0</div>
+    <header>
+        <div class="logo">
+            <span>♻️</span>
+            <h1>Meio Ambiente</h1>
+            <span>🌱</span>
+        </div>
+        <p>Jogos educativos sobre o Meio Ambiente</p>
+    </header>
+
     
-    <div id="game-area">
-        <!-- Lixeiras -->
-        <div id="papel" class="lixeira" data-type="papel">
-            <div class="lixeira-icon">Papel/ <br> Papelão</div>
-        </div>
+    <div class="container">
         
-        <div id="plastico" class="lixeira" data-type="plastico">
-            <div class="lixeira-icon">Plásticos</div>
-        </div>
+        <section id="jogos">
+            <div class="games-grid">
+                <div class="game-card">
+                    <div class="game-image" style="background-image: url('https://matanativa.com.br/wp-content/uploads/2018/05/carbono-florestal-scaled-e1639144516971.jpg');"></div>
+                    <div class="game-content">
+                        <h3>Calculadora de Carbono</h3>
+                        <p>Descubra seu impacto ambiental e aprenda como reduzir sua pegada de carbono com nosso simulador interativo.</p>
+                        <a target="_blank" href="./carbono.html" class="btn">Jogar Agora</a>
+                    </div>
+                </div>
+                
+                <div class="game-card">
+                    <div class="game-image" style="background-image: url('https://valorizaambiental.com/wp-content/uploads/2023/01/Reciclar-por-conta-propria-pode-gerar-renda.png');"></div>
+                    <div class="game-content">
+                        <h3>Desafio da Reciclagem</h3>
+                        <p>Aprenda a separar corretamente os resíduos neste jogo divertido que simula um parque com lixeiras coloridas.</p>
+                        <a target="_blank" href="./reciclagem.html" class="btn">Jogar Agora</a>
+                    </div>
+                </div>
+            </div>
+        </section>
         
-        <div id="vidro" class="lixeira" data-type="vidro">
-            <div class="lixeira-icon">Vidros</div>
-        </div>
-        
-        <div id="metal" class="lixeira" data-type="metal">
-            <div class="lixeira-icon">Metais</div>
-        </div>
-        
-        <div id="eletronico" class="lixeira" data-type="eletronico">
-            <div class="lixeira-icon">Eletrô- <br> nicos</div>
-        </div>
-        
-        <!-- Lixos -->
-        <!-- Papel/Papelão -->
-        <img id="jornal" class="lixo" src="img/jornal.png" alt="Jornal" data-type="papel">
-        <img id="caixa" class="lixo" src="img/papelao.png" alt="Caixa de Papelão" data-type="papel">
-        
-        <!-- Plásticos -->
-        <img id="garrafa" class="lixo" src="img/garrafa-pet.png" alt="Garrafa PET" data-type="plastico">
-        <img id="saco" class="lixo" src="img/sacola.png" alt="Saco Plástico" data-type="plastico">
-        
-        <!-- Vidros -->
-        <img id="vidro1" class="lixo" src="img/garrafa-vidro.png" alt="Garrafa de Vidro" data-type="vidro">
-        <img id="vidro2" class="lixo" src="img/vidro.png" alt="Pote de Vidro" data-type="vidro">
-        
-        <!-- Metais -->
-        <img id="lata" class="lixo" src="img/lata.png" alt="Lata" data-type="metal">
-        <img id="tampa" class="lixo" src="img/lata2.png" alt="Tampa de Metal" data-type="metal">
-        
-        <!-- Eletrônicos -->
-        <img id="celular" class="lixo" src="img/celular.png" alt="Celular" data-type="eletronico">
-        <img id="pilha" class="lixo" src="img/pilha.png" alt="Pilha" data-type="eletronico">
-        
-        <div id="message"></div>
     </div>
 
-    <script>
-        // Variáveis do jogo
-        let score = 0;
-        let lixosRestantes = 10;
-        let draggedLixo = null;
-        
-        // Posiciona os lixos aleatoriamente
-        function posicionarLixos() {
-            const lixos = document.querySelectorAll('.lixo');
-            const gameArea = document.getElementById('game-area');
-            const gameRect = gameArea.getBoundingClientRect();
-            
-            lixos.forEach(lixo => {
-                // Posição aleatória (evitando sobreposição)
-                let x, y;
-                do {
-                    x = Math.random() * (gameRect.width - 100) + 30;
-                    y = Math.random() * (gameRect.height - 250) + 30;
-                } while (verificarSobreposicao(lixos, lixo, x, y));
-                
-                lixo.style.left = `${x}px`;
-                lixo.style.top = `${y}px`;
-            });
-        }
-        
-        // Verifica se um lixo está sobrepondo outro
-        function verificarSobreposicao(lixos, currentLixo, x, y) {
-            for (const lixo of lixos) {
-                if (lixo !== currentLixo && lixo.style.left && lixo.style.top) {
-                    const lixoX = parseInt(lixo.style.left);
-                    const lixoY = parseInt(lixo.style.top);
-                    
-                    if (Math.abs(x - lixoX) < 80 && Math.abs(y - lixoY) < 80) {
-                        return true;
-                    }
-                }
-            }
-            return false;
-        }
-        
-        // Eventos de arrastar
-        document.querySelectorAll('.lixo').forEach(lixo => {
-            lixo.addEventListener('mousedown', e => {
-                draggedLixo = e.target;
-                draggedLixo.style.cursor = 'grabbing';
-                draggedLixo.style.zIndex = '10';
-            });
-        });
-        
-        document.addEventListener('mousemove', e => {
-            if (draggedLixo) {
-                const gameArea = document.getElementById('game-area');
-                const rect = gameArea.getBoundingClientRect();
-                
-                let x = e.clientX - rect.left - draggedLixo.width / 2;
-                let y = e.clientY - rect.top - draggedLixo.height / 2;
-                
-                // Limitar ao espaço do jogo
-                x = Math.max(0, Math.min(x, rect.width - draggedLixo.width));
-                y = Math.max(0, Math.min(y, rect.height - draggedLixo.height));
-                
-                draggedLixo.style.left = `${x}px`;
-                draggedLixo.style.top = `${y}px`;
-            }
-        });
-        
-        document.addEventListener('mouseup', e => {
-            if (draggedLixo) {
-                draggedLixo.style.cursor = 'grab';
-                draggedLixo.style.zIndex = '5';
-                
-                // Verificar se soltou em cima de uma lixeira
-                const lixeiras = document.querySelectorAll('.lixeira');
-                const lixoType = draggedLixo.getAttribute('data-type');
-                
-                for (const lixeira of lixeiras) {
-                    const lixeiraType = lixeira.getAttribute('data-type');
-                    const lixeiraRect = lixeira.getBoundingClientRect();
-                    const lixoRect = draggedLixo.getBoundingClientRect();
-                    
-                    // Verificar colisão
-                    if (
-                        lixoRect.right > lixeiraRect.left &&
-                        lixoRect.left < lixeiraRect.right &&
-                        lixoRect.bottom > lixeiraRect.top &&
-                        lixoRect.top < lixeiraRect.bottom
-                    ) {
-                        // Acertou a lixeira correta
-                        if (lixoType === lixeiraType) {
-                            score++;
-                            lixosRestantes--;
-                            showMessage('Acertou! ♻️', '#2E8B57');
-                            draggedLixo.style.display = 'none';
-                            
-                            // Atualizar pontuação
-                            document.getElementById('score').textContent = `Pontos: ${score}`;
-                            
-                            // Verificar fim do jogo
-                            if (lixosRestantes === 0) {
-                                setTimeout(() => {
-                                    showMessage('Parabéns! Você reciclou tudo corretamente! 🎉', '#006400');
-                                }, 500);
-                            }
-                        } else {
-                            showMessage('Ops! Lixeira errada!', '#FF4500');
-                            // Voltar o lixo para posição aleatória
-                            const gameArea = document.getElementById('game-area');
-                            const gameRect = gameArea.getBoundingClientRect();
-                            const x = Math.random() * (gameRect.width - 100) + 30;
-                            const y = Math.random() * (gameRect.height - 250) + 30;
-                            
-                            draggedLixo.style.left = `${x}px`;
-                            draggedLixo.style.top = `${y}px`;
-                        }
-                        break;
-                    }
-                }
-                
-                draggedLixo = null;
-            }
-        });
-        
-        // Mostrar mensagem temporária
-        function showMessage(text, color) {
-            const message = document.getElementById('message');
-            message.textContent = text;
-            message.style.backgroundColor = color;
-            message.style.display = 'block';
-            
-            setTimeout(() => {
-                message.style.display = 'none';
-            }, 1000);
-        }
-        
-        // Iniciar o jogo
-        posicionarLixos();
-    </script>
 </body>
 </html>

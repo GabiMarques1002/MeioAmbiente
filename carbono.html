@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora de Carbono</title>
+    <link rel="icon" href="../img/logo.png">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #e3f9e5;
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            color: #00a82d;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 20px;
+        }
+        .calculator {
+            background: #f0fff4;
+            padding: 20px;
+            border-radius: 12px;
+            margin: 20px 0;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #005a1c;
+        }
+        input, select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #d1fae5;
+            border-radius: 8px;
+            font-family: 'Poppins', sans-serif;
+        }
+        button {
+            background: #00c853;
+            color: white;
+            border: none;
+            padding: 14px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            width: 100%;
+            transition: all 0.3s;
+            margin-top: 10px;
+        }
+        button:hover {
+            background: #009624;
+            transform: translateY(-2px);
+        }
+        #resultado {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 12px;
+            margin-top: 25px;
+            border-left: 5px solid #00c853;
+        }
+        .comparacao {
+            background: #e3f2fd;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 15px 0;
+        }
+        .dicas {
+            background: #fff8e1;
+            padding: 15px;
+            border-radius: 10px;
+        }
+        .hidden {
+            display: none;
+        }
+        ul {
+            padding-left: 20px;
+        }
+        li {
+            margin-bottom: 10px;
+            position: relative;
+            padding-left: 25px;
+        }
+        li:before {
+            content: "➡️";
+            position: absolute;
+            left: 0;
+        }
+        .emoji {
+            font-size: 1.2em;
+            margin-right: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🌱 Calculadora de Pegada de Carbono</h1>
+        <p class="subtitle">Descubra como seus hábitos impactam o planeta e o que você pode fazer!</p>
+        
+        <div class="calculator">
+            <div class="form-group">
+                <label for="transporte"><span class="emoji">🚌</span> Como você vai para a escola/faculdade?</label>
+                <select id="transporte">
+                    <option value="0">Ando a pé/de bike</option>
+                    <option value="5">Uso transporte público</option>
+                    <option value="15">Vou de carro (como passageiro)</option>
+                    <option value="30">Vou de carro (dirigindo)</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="tecnologia"><span class="emoji">📱</span> Quantas horas por dia você usa celular/notebook?</label>
+                <input type="number" id="tecnologia" placeholder="Ex: 4" min="0" max="24">
+            </div>
+            
+            <div class="form-group">
+                <label for="alimentacao"><span class="emoji">🍔</span> Quantas refeições com carne você faz por semana?</label>
+                <input type="number" id="alimentacao" placeholder="Ex: 10" min="0" max="21">
+            </div>
+            
+            <div class="form-group">
+                <label for="roupas"><span class="emoji">👕</span> Quantas peças de roupa novas você compra por mês?</label>
+                <input type="number" id="roupas" placeholder="Ex: 2" min="0">
+            </div>
+            
+            <button id="calcular">Calcular Meu Impacto</button>
+        </div>
+        
+        <div id="resultado" class="hidden">
+            <h2>Seu Resultado 🌍</h2>
+            <p>Sua pegada de carbono anual é de <span id="total-co2" style="font-weight:700;">0</span> kg de CO₂.</p>
+            
+            <div class="comparacao">
+                <p>Isso equivale a:</p>
+                <ul>
+                    <li>🌳 <span id="arvores">0</span> árvores precisariam ser plantadas para compensar</li>
+                    <li>📱 <span id="celulares">0</span> carregadores de celular deixados na tomada por 1 ano</li>
+                </ul>
+            </div>
+            
+            <div class="dicas">
+                <h3>Dicas para Reduzir:</h3>
+                <ul id="dicas-lista"></ul>
+            </div>
+            
+            <button onclick="window.location.reload()">Calcular Novamente</button>
+        </div>
+    </div>
+    
+    <script>
+        document.getElementById('calcular').addEventListener('click', calcularPegada);
+
+        function calcularPegada() {
+            // Obter valores
+            const transporte = parseFloat(document.getElementById('transporte').value) || 0;
+            const horasTech = parseFloat(document.getElementById('tecnologia').value) || 0;
+            const refeicoesCarne = parseFloat(document.getElementById('alimentacao').value) || 0;
+            const roupasNovas = parseFloat(document.getElementById('roupas').value) || 0;
+            
+            // Cálculos (fórmulas simplificadas para jovens)
+            const co2Transporte = transporte * 52; // kg CO₂/ano
+            const co2Tech = horasTech * 365 * 0.05; // 0.05kg CO₂/hora de dispositivo
+            const co2Alimentacao = refeicoesCarne * 52 * 0.8; // 0.8kg CO₂/refeição c/ carne
+            const co2Roupas = roupasNovas * 12 * 10; // ~10kg CO₂/peça de roupa
+            
+            const totalCO2 = co2Transporte + co2Tech + co2Alimentacao + co2Roupas;
+            
+            // Comparações
+            const arvoresNecessarias = Math.round(totalCO2 / 20); // 1 árvore absorve ~20kg CO₂/ano
+            const celularesEquivalente = Math.round(totalCO2 / 5); // ~5kg CO₂/carregador ano
+            
+            // Exibir resultados
+            document.getElementById('total-co2').textContent = Math.round(totalCO2);
+            document.getElementById('arvores').textContent = arvoresNecessarias;
+            document.getElementById('celulares').textContent = celularesEquivalente;
+            
+            // Gerar dicas personalizadas
+            const dicasLista = document.getElementById('dicas-lista');
+            dicasLista.innerHTML = '';
+            
+            const dicas = [];
+            
+            if (transporte >= 15) dicas.push('🚲 Experimente ir de bike ou a pé 1 dia por semana!');
+            if (horasTech > 6) dicas.push('🔌 Desligue dispositivos quando não usar e ative o modo economia de energia');
+            if (refeicoesCarne > 7) dicas.push('🌮 Tente a "Segunda Sem Carne" - seu planeta agradece!');
+            if (roupasNovas > 2) dicas.push('🛍️ Compre em brechós - roupas usadas são tão estilosas quanto novas!');
+            
+            if (dicas.length === 0) {
+                dicas.push('🌟 Você já tem hábitos mais sustentáveis que a média! Continue inspirado!');
+            }
+            
+            dicas.forEach(dica => {
+                const li = document.createElement('li');
+                li.innerHTML = dica;
+                dicasLista.appendChild(li);
+            });
+            
+            // Mostrar resultados com animação
+            document.getElementById('resultado').classList.remove('hidden');
+            document.getElementById('resultado').style.animation = "fadeIn 0.5s";
+        }
+    </script>
+</body>
+</html>
